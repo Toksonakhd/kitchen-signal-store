@@ -1,0 +1,63 @@
+
+<div class="orders-page">
+  <div class="container">
+    <div class="header">
+      <h1>Kitchen Orders</h1>
+
+      <div class="buttons">
+        <button (click)="loadOrders()" [disabled]="loading()">
+          Refresh
+        </button>
+
+        <button (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <p>Loading orders...</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="orders-grid">
+      @for (order of orders(); track order.id) {
+        <div class="order-card">
+          <h3>Order #{{ order.id }}</h3>
+
+          <p>Customer: {{ order.customerName || 'Unknown' }}</p>
+          <p>Status: {{ order.status }}</p>
+          <p>Items: {{ order.itemCount ?? 0 }}</p>
+          <p>Total: {{ order.total ?? 0 }}</p>
+
+          <div class="actions">
+            <button
+              (click)="updateStatus(order.id, 'COOKING')"
+              [disabled]="updating()">
+              Cooking
+            </button>
+
+            <button
+              (click)="updateStatus(order.id, 'READY')"
+              [disabled]="updating()">
+              Ready
+            </button>
+
+            <button
+              (click)="updateStatus(order.id, 'DELIVERED')"
+              [disabled]="updating()">
+              Delivered
+            </button>
+          </div>
+        </div>
+      } @empty {
+        @if (!loading() && !error()) {
+          <p>No orders found</p>
+        }
+      }
+    </div>
+  </div>
+</div>

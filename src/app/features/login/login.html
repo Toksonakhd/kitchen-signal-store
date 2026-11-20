@@ -1,0 +1,36 @@
+
+<div class="login-page">
+  <div class="login-card">
+    <h2>Kitchen Login</h2>
+
+    <form (ngSubmit)="login()">
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter email"
+        [ngModel]="email()"
+        (ngModelChange)="email.set($event)"
+        required
+      />
+
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter password"
+        [ngModel]="password()"
+        (ngModelChange)="password.set($event)"
+        required
+      />
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+  </div>
+</div>
